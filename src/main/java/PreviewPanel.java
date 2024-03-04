@@ -22,11 +22,12 @@ public class PreviewPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
+        g2d.fillRect(0,0,640, 640);
         if (!layers.isEmpty()) {
-            BufferedImage baseImage = layers.get(0).getImage();
+            BufferedImage baseImage = layers.get(0).getOutputImage();
             for (int i = 1; i < layers.size(); i++) {
                 Layer layer = layers.get(i);
-                baseImage = LayerComposer.combine(new Layer(baseImage), layer).getImage();
+                baseImage = LayerComposer.combine(new Layer(baseImage), layer).getOutputImage();
             }
             g2d.drawImage(baseImage, 0, 0, this);
         }

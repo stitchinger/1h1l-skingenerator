@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Layer {
-    private BufferedImage image;
+    private BufferedImage originalImage;
+    private BufferedImage outputImage;
     private float opacity = 1.0f;
     private Color colorFilter = null;
     private Color tint = null;
@@ -15,22 +16,19 @@ public class Layer {
 
     public Layer(String imagePath) {
         loadImageAndScale(imagePath, 640, 640); // Load and scale the image
-    }
-
-    public Layer(String imagePath, BlendMode blendMode) {
-        loadImageAndScale(imagePath, 640, 640); // Load and scale the image
-        this.blendMode = blendMode;
+        outputImage = originalImage;
     }
 
     public Layer(BufferedImage originalImage) {
-        image = originalImage;
+        this.originalImage = originalImage;
+        this.outputImage = originalImage;
     }
 
     private void loadImageAndScale(String imagePath, int targetWidth, int targetHeight) {
         try {
             URL imageUrl = getClass().getResource(imagePath);
             BufferedImage originalImage = ImageIO.read(imageUrl);
-            image = scaleImage(originalImage, targetWidth, targetHeight);
+            this.originalImage = scaleImage(originalImage, targetWidth, targetHeight);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,6 +44,7 @@ public class Layer {
 
     public Layer opacity(double value) {
         this.opacity = (float) value;
+        applyOpacity();
         return this;
     }
 
@@ -61,16 +60,46 @@ public class Layer {
         return this;
     }
 
-    private void applyColorFilter() {
-        if (colorFilter != null && image != null) {
-            int width = image.getWidth();
-            int height = image.getHeight();
+    private void applyOpacity(){
+        if (opacity != 0 && outputImage != null) {
+            int width = outputImage.getWidth();
+            int height = outputImage.getHeight();
 
             BufferedImage tintedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    int argb = image.getRGB(x, y);
+                    int argb = outputImage.getRGB(x, y);
+                    Color originalColor = new Color(argb, true);
+
+                    int pixelAlpha = originalColor.getAlpha();
+
+                    if (pixelAlpha > 0) {
+                        int red = (originalColor.getRed());
+                        int green = (originalColor.getGreen());
+                        int blue = (originalColor.getBlue());
+
+                        Color tintedColor = new Color(red, green, blue, (int)(pixelAlpha * opacity));
+                        tintedImage.setRGB(x, y, tintedColor.getRGB());
+                    } else {
+                        tintedImage.setRGB(x, y, argb);
+                    }
+                }
+            }
+            this.outputImage = tintedImage;
+        }
+    }
+
+    private void applyColorFilter() {
+        if (colorFilter != null && outputImage != null) {
+            int width = outputImage.getWidth();
+            int height = outputImage.getHeight();
+
+            BufferedImage tintedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    int argb = outputImage.getRGB(x, y);
                     Color originalColor = new Color(argb, true);
                     int alpha = originalColor.getAlpha();
 
@@ -86,19 +115,19 @@ public class Layer {
                     }
                 }
             }
-            this.image = tintedImage;
+            this.outputImage = tintedImage;
         }
     }
 
     private void applyTint() {
-        if (tint != null && image != null) {
-            int width = image.getWidth();
-            int height = image.getHeight();
+        if (tint != null && outputImage != null) {
+            int width = outputImage.getWidth();
+            int height = outputImage.getHeight();
 
             BufferedImage tintedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    int argb = image.getRGB(x, y);
+                    int argb = outputImage.getRGB(x, y);
                     Color originalColor = new Color(argb, true);
                     int alpha = originalColor.getAlpha();
 
@@ -109,16 +138,13 @@ public class Layer {
                     }
                 }
             }
-            this.image = tintedImage;
+            this.outputImage = tintedImage;
         }
     }
 
-
-
-    public BufferedImage getImage() {
-        return image;
+    public BufferedImage getOutputImage() {
+        return outputImage;
     }
-
 
     public BlendMode getBlendMode() {
         return blendMode;

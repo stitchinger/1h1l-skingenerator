@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 public class LayerComposer {
 
     public static Layer combine(Layer layer1, Layer layer2) {
-        BufferedImage image1 = layer1.getImage();
-        BufferedImage image2 = layer2.getImage();
+        BufferedImage image1 = layer1.getOutputImage();
+        BufferedImage image2 = layer2.getOutputImage();
         int width = image1.getWidth();
         int height = image1.getHeight();
 
@@ -27,7 +27,7 @@ public class LayerComposer {
                         blendedColor = blendMultiply(color1, color2);
                         break;
                     default:
-                        blendedColor = blendNormal(color1, color2, layer2.getOpacity());
+                        blendedColor = blendNormal(color1, color2);
                         break;
                 }
                 combinedImage.setRGB(x, y, blendedColor.getRGB());
@@ -45,6 +45,8 @@ public class LayerComposer {
         if (combinedAlpha == 0) {
             return new Color(0, 0, 0, 0);
         }
+
+
 
         int red = (int) ((color1.getRed() / 255.0f) * (color2.getRed() / 255.0f) * 255.0f);
         int green = (int) ((color1.getGreen() / 255.0f) * (color2.getGreen() / 255.0f) * 255.0f);
@@ -98,9 +100,9 @@ public class LayerComposer {
         }
     }
 
-    private static Color blendNormal(Color baseColor, Color blendColor, float opacity) {
+    private static Color blendNormal(Color baseColor, Color blendColor) {
         float alpha1 = baseColor.getAlpha() / 255.0f;
-        float alpha2 = blendColor.getAlpha() / 255.0f * opacity;
+        float alpha2 = blendColor.getAlpha() / 255.0f;
         float combinedAlpha = alpha1 + alpha2 * (1 - alpha1);
 
         if (combinedAlpha == 0) {
