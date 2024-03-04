@@ -21,7 +21,6 @@ public class LayerComposer {
 
                 if (layer2.getBlendMode() == BlendMode.SOFT_LIGHT) {
                     blendedColor = blendSoftLight(color1, color2);
-                    System.out.println("Soft light");
                 } else {
                     blendedColor = blendNormal(color1, color2, layer2.getOpacity());
                 }

@@ -6,10 +6,15 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PreviewPanel extends JPanel {
-    private final List<Layer> layers;
+    private List<Layer> layers;
 
     public PreviewPanel(List<Layer> layers) {
-        this.layers = layers;
+        setLayers(layers);
+    }
+
+    public void setLayers(List<Layer> newLayers) {
+        this.layers = newLayers;
+        repaint();
     }
 
     @Override
@@ -30,5 +35,7 @@ public class PreviewPanel extends JPanel {
 
         g2d.dispose();
     }
+
+
 
 }
