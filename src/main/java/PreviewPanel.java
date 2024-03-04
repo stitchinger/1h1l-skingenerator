@@ -1,14 +1,12 @@
 package main.java;
 
-import main.java.Layer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PreviewPanel extends JPanel {
-    private List<Layer> layers;
+    private final List<Layer> layers;
 
     public PreviewPanel(List<Layer> layers) {
         this.layers = layers;
@@ -16,18 +14,18 @@ public class PreviewPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+        System.out.println("draw");
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
-        for (Layer layer : layers) {
-            BufferedImage layerImage = layer.getImage(); // Ensure this method applies the current opacity
-            // Optionally set an AlphaComposite if each layer manages its own opacity
-            float layerOpacity = layer.getOpacity(); // Ensure Layer class has this method
-            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, layerOpacity);
-            g2d.setComposite(ac);
-
-            // Draw the image, respecting layer order
-            g2d.drawImage(layerImage, 0, 0, this);
+        if (!layers.isEmpty()) {
+            // Assuming the first layer is the base for the following layers to blend onto
+            BufferedImage baseImage = layers.get(0).getImage();
+            for (int i = 1; i < layers.size(); i++) {
+                Layer layer = layers.get(i);
+                baseImage = LayerComposer.combine(new Layer(baseImage), layer).getImage();
+            }
+            g2d.drawImage(baseImage, 0, 0, this);
         }
 
         g2d.dispose();

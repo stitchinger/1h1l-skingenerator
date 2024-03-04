@@ -9,10 +9,20 @@ import java.net.URL;
 public class Layer {
     private BufferedImage image;
     private float opacity = 1.0f;
-    private Color colorFilter = null; // New property to store the color filter
+    private Color colorFilter = null;
+    private BlendMode blendMode = BlendMode.NORMAL;
 
     public Layer(String imagePath) {
         loadImageAndScale(imagePath, 640, 640); // Load and scale the image
+    }
+
+    public Layer(String imagePath, BlendMode blendMode) {
+        loadImageAndScale(imagePath, 640, 640); // Load and scale the image
+        this.blendMode = blendMode;
+    }
+
+    public Layer(BufferedImage originalImage) {
+        image = originalImage;
     }
 
     private void loadImageAndScale(String imagePath, int targetWidth, int targetHeight) {
@@ -91,6 +101,16 @@ public class Layer {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+
+    public BlendMode getBlendMode() {
+        return blendMode;
+    }
+
+    public Layer setBlendMode(BlendMode blendMode) {
+        this.blendMode = blendMode;
+        return this;
     }
 
     public float getOpacity() {
