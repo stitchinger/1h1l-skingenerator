@@ -1,6 +1,7 @@
 package main.java;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,14 @@ public class ImagePreviewApp extends JFrame {
     private final List<Layer> adultLayers = new ArrayList<>();
     private final List<Layer> elderLayers = new ArrayList<>();
 
-    private final Color skinColor = new Color(224, 187, 150);
-    private final Color eyeColor = new Color(212, 250, 102);
-    private final Color eyeWhiteColor = new Color(253, 218, 218);
-    private final Color browColor = new Color(144, 113, 201);
-    private final Color hairColor = new Color(253, 214, 120);
+    private  Color skinColor = new Color(224, 187, 150);
+    private  Color eyeColor = new Color(212, 250, 102);
+    private  Color eyeWhiteColor = new Color(253, 218, 218);
+    private  Color browColor = new Color(144, 113, 201);
+    private  Color hairColor = new Color(253, 214, 120);
+    private  Color noseColor = new Color(182, 141, 123);
     private final PreviewPanel previewPanel;
+    private LifePhase currentPhase = LifePhase.CHILD;
 
 
     public ImagePreviewApp() {
@@ -28,7 +31,12 @@ public class ImagePreviewApp extends JFrame {
         SidebarPanel sidebarPanel = new SidebarPanel(this);
         sidebarPanel.setPreferredSize(new Dimension(150, getHeight()));
         add(sidebarPanel, BorderLayout.WEST);
+
+        HeaderPanel headerPanel = new HeaderPanel(this);
+        add(headerPanel, BorderLayout.NORTH);
+
         previewPanel = new PreviewPanel(teenLayers);
+        onLifePhaseChanged(currentPhase);
         add(previewPanel);
         setVisible(true);
     }
@@ -45,51 +53,60 @@ public class ImagePreviewApp extends JFrame {
     }
 
     private void loadLayers() {
-        babyLayers.add(new Layer("/skin_color.png").color(skinColor));
-        babyLayers.add(new Layer("/skin_shading.png", BlendMode.SOFT_LIGHT).opacity(0.9));
+        babyLayers.add(new Layer("/skin_color.png").tint(skinColor));
+        babyLayers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         babyLayers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         babyLayers.add(new Layer("/eye_color.png").color(ColorUtils.desaturate(eyeColor,0f)));
-        babyLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(hairColor,0f)));
+        babyLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0f)));
+        babyLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0f)));
 
-        toddlerLayers.add(new Layer("/skin_color.png").color(skinColor));
-        toddlerLayers.add(new Layer("/skin_shading.png", BlendMode.SOFT_LIGHT).opacity(0.9));
+        toddlerLayers.add(new Layer("/skin_color.png").tint(skinColor));
+        toddlerLayers.add(new Layer("/skin_noise.png").opacity(0.1).setBlendMode(BlendMode.MULTIPLY));
+        toddlerLayers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         toddlerLayers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         toddlerLayers.add(new Layer("/eye_color.png").color(ColorUtils.desaturate(eyeColor,0.1f)));
-        toddlerLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(hairColor,0.1f)));
+        toddlerLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.1f)));
+        toddlerLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0.1f)));
 
-        childLayers.add(new Layer("/skin_color.png").color(skinColor));
-        childLayers.add(new Layer("/skin_shading.png", BlendMode.SOFT_LIGHT).opacity(0.9));
+        childLayers.add(new Layer("/skin_color.png").tint(skinColor));
+        childLayers.add(new Layer("/skin_noise.png").opacity(0.2).setBlendMode(BlendMode.MULTIPLY));
+        childLayers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         childLayers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         childLayers.add(new Layer("/eye_color.png").color(ColorUtils.desaturate(eyeColor,0.2f)));
+        childLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.2f)));
         childLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0.2f)));
         childLayers.add(new Layer("/hair_child.png").color(ColorUtils.desaturate(hairColor,0.2f)));
 
-        teenLayers.add(new Layer("/skin_color.png").color(skinColor));
-        teenLayers.add(new Layer("/skin_noise.png").opacity(0.1).setBlendMode(BlendMode.SOFT_LIGHT));
-        teenLayers.add(new Layer("/skin_shading.png", BlendMode.SOFT_LIGHT).opacity(0.9));
+        teenLayers.add(new Layer("/skin_color.png").tint(skinColor));
+        teenLayers.add(new Layer("/skin_noise.png").opacity(0.3).setBlendMode(BlendMode.MULTIPLY));
+        teenLayers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         teenLayers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         teenLayers.add(new Layer("/eye_color.png").color(ColorUtils.desaturate(eyeColor,0.3f)));
+        teenLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.3f)));
         teenLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0.3f)));
         teenLayers.add(new Layer("/hair_teen.png").color(ColorUtils.desaturate(hairColor,0.3f)));
 
-        adultLayers.add(new Layer("/skin_color.png").color(skinColor));
-        adultLayers.add(new Layer("/skin_noise.png").opacity(0.5).setBlendMode(BlendMode.SOFT_LIGHT));
-        adultLayers.add(new Layer("/skin_shading.png", BlendMode.SOFT_LIGHT).opacity(0.9));
+        adultLayers.add(new Layer("/skin_color.png").tint(skinColor));
+        adultLayers.add(new Layer("/skin_noise.png").opacity(0.4).setBlendMode(BlendMode.MULTIPLY));
+        adultLayers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         adultLayers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         adultLayers.add(new Layer("/eye_color.png").color(ColorUtils.desaturate(eyeColor,0.5f)));
+        adultLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.5f)));
         adultLayers.add(new Layer("/brow_larger.png").color(ColorUtils.desaturate(browColor,0.5f)));
         adultLayers.add(new Layer("/hair_adult.png").color(ColorUtils.desaturate(hairColor,0.5f)));
 
-        elderLayers.add(new Layer("/skin_color.png").color(skinColor));
-        elderLayers.add(new Layer("/skin_noise.png").opacity(0.99).setBlendMode(BlendMode.SOFT_LIGHT));
-        elderLayers.add(new Layer("/skin_shading.png", BlendMode.SOFT_LIGHT).opacity(0.9));
+        elderLayers.add(new Layer("/skin_color.png").tint(skinColor));
+        elderLayers.add(new Layer("/skin_noise.png").opacity(0.6).setBlendMode(BlendMode.MULTIPLY));
+        elderLayers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         elderLayers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         elderLayers.add(new Layer("/eye_color.png").color(ColorUtils.desaturate(eyeColor,0.7f)));
-        elderLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0.7f)));
+        elderLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.3f)));
+        elderLayers.add(new Layer("/brow_larger.png").color(ColorUtils.desaturate(browColor,0.7f)));
         elderLayers.add(new Layer("/hair_adult.png").color(ColorUtils.desaturate(hairColor,0.7f)));
     }
 
     public void onLifePhaseChanged(LifePhase lifePhase) {
+        currentPhase = lifePhase;
         switch (lifePhase) {
             case BABY -> previewPanel.setLayers(babyLayers);
             case TODDLER -> previewPanel.setLayers(toddlerLayers);
@@ -100,5 +117,13 @@ public class ImagePreviewApp extends JFrame {
         }
     }
 
-
+    public void refreshColors(Color skin, Color eye, Color brow, Color hair, Color nose){
+        skinColor = skin;
+        eyeColor = eye;
+        browColor = brow;
+        hairColor = hair;
+        noseColor = nose;
+        loadLayers();
+        onLifePhaseChanged(currentPhase);
+    }
 }

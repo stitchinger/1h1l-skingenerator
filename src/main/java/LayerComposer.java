@@ -19,10 +19,16 @@ public class LayerComposer {
                 Color color2 = new Color(image2.getRGB(x, y), true);
                 Color blendedColor;
 
-                if (layer2.getBlendMode() == BlendMode.SOFT_LIGHT) {
-                    blendedColor = blendSoftLight(color1, color2);
-                } else {
-                    blendedColor = blendNormal(color1, color2, layer2.getOpacity());
+                switch (layer2.getBlendMode()) {
+                    case SOFT_LIGHT:
+                        blendedColor = blendSoftLight(color1, color2);
+                        break;
+                    case MULTIPLY:
+                        blendedColor = blendMultiply(color1, color2);
+                        break;
+                    default:
+                        blendedColor = blendNormal(color1, color2, layer2.getOpacity());
+                        break;
                 }
                 combinedImage.setRGB(x, y, blendedColor.getRGB());
             }
@@ -30,6 +36,23 @@ public class LayerComposer {
 
         return new Layer(combinedImage); // Set blend mode of combined layer to NORMAL or as needed
     }
+
+    private static Color blendMultiply(Color color1, Color color2) {
+        float alpha1 = color1.getAlpha() / 255.0f;
+        float alpha2 = color2.getAlpha() / 255.0f;
+        float combinedAlpha = alpha1 + alpha2 * (1 - alpha1);
+
+        if (combinedAlpha == 0) {
+            return new Color(0, 0, 0, 0);
+        }
+
+        int red = (int) ((color1.getRed() / 255.0f) * (color2.getRed() / 255.0f) * 255.0f);
+        int green = (int) ((color1.getGreen() / 255.0f) * (color2.getGreen() / 255.0f) * 255.0f);
+        int blue = (int) ((color1.getBlue() / 255.0f) * (color2.getBlue() / 255.0f) * 255.0f);
+
+        return new Color(clamp(red), clamp(green), clamp(blue), (int) (combinedAlpha * 255));
+    }
+
 
     private static Color blendSoftLight(Color baseColor, Color blendColor) {
         float alpha1 = baseColor.getAlpha() / 255.0f;
@@ -67,8 +90,6 @@ public class LayerComposer {
         return Math.max(0.0, Math.min(1.0, value));
     }
 
-
-
     private static double softLightComponent(double base, double blend) {
         if (blend < 0.5) {
             return 2 * base * blend + base * base * (1 - 2 * blend);
@@ -76,7 +97,6 @@ public class LayerComposer {
             return 2 * base * (1 - blend) + Math.sqrt(base) * (2 * blend - 1);
         }
     }
-
 
     private static Color blendNormal(Color baseColor, Color blendColor, float opacity) {
         float alpha1 = baseColor.getAlpha() / 255.0f;

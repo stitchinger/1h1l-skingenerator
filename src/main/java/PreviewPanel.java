@@ -19,12 +19,10 @@ public class PreviewPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        System.out.println("draw");
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
         if (!layers.isEmpty()) {
-            // Assuming the first layer is the base for the following layers to blend onto
             BufferedImage baseImage = layers.get(0).getImage();
             for (int i = 1; i < layers.size(); i++) {
                 Layer layer = layers.get(i);

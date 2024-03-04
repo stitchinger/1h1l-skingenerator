@@ -10,6 +10,7 @@ public class Layer {
     private BufferedImage image;
     private float opacity = 1.0f;
     private Color colorFilter = null;
+    private Color tint = null;
     private BlendMode blendMode = BlendMode.NORMAL;
 
     public Layer(String imagePath) {
@@ -54,12 +55,17 @@ public class Layer {
         return this;
     }
 
+    public Layer tint(Color newColor) {
+        this.tint = newColor;
+        applyTint();
+        return this;
+    }
+
     private void applyColorFilter() {
         if (colorFilter != null && image != null) {
             int width = image.getWidth();
             int height = image.getHeight();
 
-            // Create a new image to avoid mutating the original unnecessarily
             BufferedImage tintedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
             for (int x = 0; x < width; x++) {
@@ -68,36 +74,46 @@ public class Layer {
                     Color originalColor = new Color(argb, true);
                     int alpha = originalColor.getAlpha();
 
-                    // Only apply tint if the pixel is not fully transparent
                     if (alpha > 0) {
                         int red = (originalColor.getRed() * colorFilter.getRed()) / 255;
                         int green = (originalColor.getGreen() * colorFilter.getGreen()) / 255;
                         int blue = (originalColor.getBlue() * colorFilter.getBlue()) / 255;
 
-                        // Create a new color with the original alpha value
                         Color tintedColor = new Color(red, green, blue, alpha);
                         tintedImage.setRGB(x, y, tintedColor.getRGB());
                     } else {
-                        // If pixel is fully transparent, copy it as is
                         tintedImage.setRGB(x, y, argb);
                     }
                 }
             }
+            this.image = tintedImage;
+        }
+    }
 
-            // Replace the original image with the tinted one
+    private void applyTint() {
+        if (tint != null && image != null) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+
+            BufferedImage tintedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    int argb = image.getRGB(x, y);
+                    Color originalColor = new Color(argb, true);
+                    int alpha = originalColor.getAlpha();
+
+                    if (alpha > 0) {
+                        tintedImage.setRGB(x, y, tint.getRGB());
+                    } else {
+                        tintedImage.setRGB(x, y, argb);
+                    }
+                }
+            }
             this.image = tintedImage;
         }
     }
 
 
-
-    // Utility method to blend two colors based on the specified opacity
-    private Color blendColors(Color color1, Color color2, float ratio) {
-        int r = (int) (color1.getRed() * (1 - ratio) + color2.getRed() * ratio);
-        int g = (int) (color1.getGreen() * (1 - ratio) + color2.getGreen() * ratio);
-        int b = (int) (color1.getBlue() * (1 - ratio) + color2.getBlue() * ratio);
-        return new Color(r, g, b);
-    }
 
     public BufferedImage getImage() {
         return image;
