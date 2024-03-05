@@ -2,8 +2,18 @@ package main.java.layers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class LayerComposer {
+
+    public static BufferedImage combineLayers(List<Layer> layers){
+        BufferedImage baseImage = layers.get(0).getOutputImage();
+        for (int i = 1; i < layers.size(); i++) {
+            Layer layer = layers.get(i);
+            baseImage = LayerComposer.combine(new Layer(baseImage), layer).getOutputImage();
+        }
+        return baseImage;
+    }
 
     public static Layer combine(Layer layer1, Layer layer2) {
         BufferedImage image1 = layer1.getOutputImage();

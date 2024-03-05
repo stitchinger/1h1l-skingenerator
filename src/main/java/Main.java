@@ -4,10 +4,15 @@ import main.java.gui.HeaderPanel;
 import main.java.gui.SidebarPanel;
 import main.java.layers.BlendMode;
 import main.java.layers.Layer;
+import main.java.layers.LayerComposer;
 import main.java.utils.ColorUtils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,5 +142,45 @@ public class Main extends JFrame {
         this.skirtColor = skirtColor;
         loadLayers();
         onLifePhaseChanged(currentPhase);
+    }
+
+    public void export(){
+        BufferedImage skinImage = LayerComposer.combineLayers(babyLayers);
+        saveSkinImage(skinImage, "0_baby" + ".png");
+        skinImage = LayerComposer.combineLayers(toddlerLayers);
+        saveSkinImage(skinImage, "1_toddler" + ".png");
+        skinImage = LayerComposer.combineLayers(childLayers);
+        saveSkinImage(skinImage, "2_child" + ".png");
+        skinImage = LayerComposer.combineLayers(teenLayers);
+        saveSkinImage(skinImage, "3_teen" + ".png");
+        skinImage = LayerComposer.combineLayers(adultLayers);
+        saveSkinImage(skinImage, "4_adult" + ".png");
+        skinImage = LayerComposer.combineLayers(elderLayers);
+        saveSkinImage(skinImage, "5_elder" + ".png");
+    }
+
+    private void saveSkinImage(BufferedImage image, String fileName) {
+        // Specify the directory where the images will be saved
+        String directoryPath = "export";
+        File directory = new File(directoryPath);
+
+        // Check if the directory exists, create it if it doesn't
+        if (!directory.exists()) {
+            if (directory.mkdirs()) {
+                System.out.println("Directory created: " + directoryPath);
+            } else {
+                System.err.println("Failed to create directory: " + directoryPath);
+                return;
+            }
+        }
+
+        try {
+            File outputFile = new File(directory, fileName);
+            ImageIO.write(image, "PNG", outputFile);
+            System.out.println("Saved skin: " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error saving skin: " + fileName);
+            e.printStackTrace();
+        }
     }
 }
