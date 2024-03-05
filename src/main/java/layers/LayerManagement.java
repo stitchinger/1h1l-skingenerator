@@ -32,8 +32,8 @@ public class LayerManagement {
     private void loadAllLayers() {
         List<Layer> layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(skinColor));
-        layers.add(new Layer("/skin_noise.png").opacity(0.1).setBlendMode(BlendMode.MULTIPLY));
-        layers.add(new Layer("/skin_shading.png").opacity(0.1).setBlendMode(BlendMode.SOFT_LIGHT));
+        layers.add(new Layer("/skin_noise.png").opacity(0.0).setBlendMode(BlendMode.MULTIPLY));
+        layers.add(new Layer("/skin_shading.png").opacity(1).setBlendMode(BlendMode.SOFT_LIGHT));
         layers.add(new Layer("/underwear.png"));
         layers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         layers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor, 0f)));
@@ -43,8 +43,8 @@ public class LayerManagement {
 
         layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(skinColor));
-        layers.add(new Layer("/skin_noise.png").opacity(0.5).setBlendMode(BlendMode.MULTIPLY));
-        layers.add(new Layer("/skin_shading.png").opacity(0.5).setBlendMode(BlendMode.SOFT_LIGHT));
+        layers.add(new Layer("/skin_noise.png").opacity(0.1).setBlendMode(BlendMode.MULTIPLY));
+        layers.add(new Layer("/skin_shading.png").opacity(1).setBlendMode(BlendMode.SOFT_LIGHT));
         layers.add(new Layer("/underwear.png"));
         layers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         layers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor, 0.1f)));
@@ -54,8 +54,8 @@ public class LayerManagement {
 
         layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(skinColor));
-        layers.add(new Layer("/skin_noise.png").opacity(0.2).setBlendMode(BlendMode.MULTIPLY));
-        layers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
+        layers.add(new Layer("/skin_noise.png").opacity(0.25).setBlendMode(BlendMode.MULTIPLY));
+        layers.add(new Layer("/skin_shading.png").opacity(1).setBlendMode(BlendMode.SOFT_LIGHT));
         layers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         layers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor, 0.2f)));
         layers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor, 0.2f)));
@@ -67,8 +67,8 @@ public class LayerManagement {
 
         layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(skinColor));
-        layers.add(new Layer("/skin_noise.png").opacity(0.3).setBlendMode(BlendMode.MULTIPLY));
-        layers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
+        layers.add(new Layer("/skin_noise.png").opacity(0.4).setBlendMode(BlendMode.MULTIPLY));
+        layers.add(new Layer("/skin_shading.png").opacity(1).setBlendMode(BlendMode.SOFT_LIGHT));
         layers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         layers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor, 0.3f)));
         layers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor, 0.3f)));
@@ -80,8 +80,8 @@ public class LayerManagement {
 
         layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(ColorUtils.desaturate(skinColor, 0.4f)));
-        layers.add(new Layer("/skin_noise.png").opacity(0.4).setBlendMode(BlendMode.MULTIPLY));
-        layers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
+        layers.add(new Layer("/skin_noise.png").opacity(0.65).setBlendMode(BlendMode.MULTIPLY));
+        layers.add(new Layer("/skin_shading.png").opacity(1).setBlendMode(BlendMode.SOFT_LIGHT));
         layers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         layers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor, 0.5f)));
         layers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor, 0.5f)));
@@ -93,7 +93,7 @@ public class LayerManagement {
 
         layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(ColorUtils.desaturate(skinColor, 0.5f)));
-        layers.add(new Layer("/skin_noise.png").opacity(0.6).setBlendMode(BlendMode.MULTIPLY));
+        layers.add(new Layer("/skin_noise.png").opacity(0.8).setBlendMode(BlendMode.MULTIPLY));
         layers.add(new Layer("/skin_shading.png").opacity(0.9).setBlendMode(BlendMode.SOFT_LIGHT));
         layers.add(new Layer("/eyewhite.png").color(eyeWhiteColor));
         layers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor, 0.7f)));

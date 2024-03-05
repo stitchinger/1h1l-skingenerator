@@ -2,6 +2,7 @@ package main.java;
 
 import main.java.layers.LayerComposer;
 import main.java.layers.LayerManagement;
+import main.java.utils.ImageUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,9 +20,12 @@ public class ImageExporter {
         String exportDirectory = "export";
         ensureExportDirectoryExists(exportDirectory);
 
-        for (LifePhase phase : LifePhase.values()) {
+        LifePhase[] values = LifePhase.values();
+        for (int i = 0; i < values.length; i++) {
+            LifePhase phase = values[i];
             BufferedImage image = LayerComposer.combineLayers(layerManagement.getLayersForLifePhase(phase));
-            String fileName = phase.name().toLowerCase() + ".png";
+            image = ImageUtils.scaleImage(image, 640, 640);
+            String fileName = i + "_" + phase.name().toLowerCase() + ".png";
             saveSkinImage(image, fileName, exportDirectory);
         }
     }

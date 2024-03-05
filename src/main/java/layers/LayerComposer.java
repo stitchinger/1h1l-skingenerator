@@ -34,7 +34,7 @@ public class LayerComposer {
                         blendedColor = blendSoftLight(color1, color2);
                         break;
                     case MULTIPLY:
-                        blendedColor = blendMultiply(color1, color2);
+                        blendedColor = multiplyBlendWithOpacity(color1, color2, layer2.getOpacity());
                         break;
                     default:
                         blendedColor = blendNormal(color1, color2);
@@ -47,24 +47,34 @@ public class LayerComposer {
         return new Layer(combinedImage); // Set blend mode of combined layer to NORMAL or as needed
     }
 
-    private static Color blendMultiply(Color color1, Color color2) {
-        float alpha1 = color1.getAlpha() / 255.0f;
-        float alpha2 = color2.getAlpha() / 255.0f;
-        float combinedAlpha = alpha1 + alpha2 * (1 - alpha1);
-
-        if (combinedAlpha == 0) {
-            return new Color(0, 0, 0, 0);
+    public static Color multiplyBlendWithOpacity(Color baseColor, Color blendColor, float opacity) {
+        if (opacity < 0.0f || opacity > 1.0f) {
+            throw new IllegalArgumentException("Opacity must be between 0.0 and 1.0");
         }
 
+        // Extract RGBA components from both colors
+        int baseAlpha = baseColor.getAlpha();
+        int baseRed = baseColor.getRed();
+        int baseGreen = baseColor.getGreen();
+        int baseBlue = baseColor.getBlue();
 
+        int blendRed = blendColor.getRed();
+        int blendGreen = blendColor.getGreen();
+        int blendBlue = blendColor.getBlue();
 
-        int red = (int) ((color1.getRed() / 255.0f) * (color2.getRed() / 255.0f) * 255.0f);
-        int green = (int) ((color1.getGreen() / 255.0f) * (color2.getGreen() / 255.0f) * 255.0f);
-        int blue = (int) ((color1.getBlue() / 255.0f) * (color2.getBlue() / 255.0f) * 255.0f);
+        // Perform the Multiply blend mode operation
+        int redResult = (baseRed * blendRed) / 255;
+        int greenResult = (baseGreen * blendGreen) / 255;
+        int blueResult = (baseBlue * blendBlue) / 255;
 
-        return new Color(clamp(red), clamp(green), clamp(blue), (int) (combinedAlpha * 255));
+        // Apply opacity to the blended result
+        redResult = (int)((redResult - baseRed) * opacity + baseRed);
+        greenResult = (int)((greenResult - baseGreen) * opacity + baseGreen);
+        blueResult = (int)((blueResult - baseBlue) * opacity + baseBlue);
+
+        // Return the new color with original alpha
+        return new Color(redResult, greenResult, blueResult, baseAlpha);
     }
-
 
     private static Color blendSoftLight(Color baseColor, Color blendColor) {
         float alpha1 = baseColor.getAlpha() / 255.0f;

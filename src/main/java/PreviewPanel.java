@@ -2,9 +2,11 @@ package main.java;
 
 import main.java.layers.Layer;
 import main.java.layers.LayerComposer;
+import main.java.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PreviewPanel extends JPanel {
@@ -34,9 +36,10 @@ public class PreviewPanel extends JPanel {
     private void drawLayers(Graphics2D g2d) {
         if (drawLayers.isEmpty())
             return;
-
-        g2d.drawImage(LayerComposer.combineLayers(drawLayers), 0, 0, this);
+        BufferedImage scaledOutput = ImageUtils.scaleImage(LayerComposer.combineLayers(drawLayers), 640, 640);
+        g2d.drawImage(scaledOutput, 0, 0, this);
     }
+
 
 
 }
