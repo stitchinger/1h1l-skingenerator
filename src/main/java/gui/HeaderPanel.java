@@ -1,13 +1,13 @@
 package main.java.gui;
 
 import main.java.LifePhase;
-import main.java.Main;
+import main.java.ApplicationWindow;
 
 import javax.swing.*;
 
 public class HeaderPanel extends JPanel {
 
-    public HeaderPanel(Main app) {
+    public HeaderPanel(ApplicationWindow app) {
         JRadioButton babyButton = new JRadioButton("Baby");
         JRadioButton toddlerButton = new JRadioButton("Toddler");
         JRadioButton childButton = new JRadioButton("Child");

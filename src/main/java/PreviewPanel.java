@@ -8,14 +8,14 @@ import java.awt.*;
 import java.util.List;
 
 public class PreviewPanel extends JPanel {
-    private List<Layer> layers;
+    private List<Layer> drawLayers;
 
     public PreviewPanel(List<Layer> layers) {
-        setLayers(layers);
+        setDrawLayers(layers);
     }
 
-    public void setLayers(List<Layer> newLayers) {
-        this.layers = newLayers;
+    public void setDrawLayers(List<Layer> newLayers) {
+        this.drawLayers = newLayers;
         repaint();
     }
 
@@ -32,10 +32,10 @@ public class PreviewPanel extends JPanel {
     }
 
     private void drawLayers(Graphics2D g2d) {
-        if (layers.isEmpty())
+        if (drawLayers.isEmpty())
             return;
 
-        g2d.drawImage(LayerComposer.combineLayers(layers), 0, 0, this);
+        g2d.drawImage(LayerComposer.combineLayers(drawLayers), 0, 0, this);
     }
 
 
