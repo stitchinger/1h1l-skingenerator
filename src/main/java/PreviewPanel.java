@@ -1,5 +1,8 @@
 package main.java;
 
+import main.java.layers.Layer;
+import main.java.layers.LayerComposer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,18 +26,24 @@ public class PreviewPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g.create();
 
         g2d.fillRect(0,0,640, 640);
-        if (!layers.isEmpty()) {
-            BufferedImage baseImage = layers.get(0).getOutputImage();
-            for (int i = 1; i < layers.size(); i++) {
-                Layer layer = layers.get(i);
-                baseImage = LayerComposer.combine(new Layer(baseImage), layer).getOutputImage();
-            }
-            g2d.drawImage(baseImage, 0, 0, this);
-        }
+
+        drawLayers(g2d);
 
         g2d.dispose();
     }
 
+    private void drawLayers(Graphics2D g2d) {
+        if (layers.isEmpty())
+            return;
+
+        BufferedImage baseImage = layers.get(0).getOutputImage();
+
+        for (int i = 1; i < layers.size(); i++) {
+            Layer layer = layers.get(i);
+            baseImage = LayerComposer.combine(new Layer(baseImage), layer).getOutputImage();
+        }
+        g2d.drawImage(baseImage, 0, 0, this);
+    }
 
 
 }

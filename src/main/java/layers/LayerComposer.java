@@ -1,4 +1,4 @@
-package main.java;
+package main.java.layers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

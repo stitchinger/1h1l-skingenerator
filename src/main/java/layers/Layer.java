@@ -1,4 +1,4 @@
-package main.java;
+package main.java.layers;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

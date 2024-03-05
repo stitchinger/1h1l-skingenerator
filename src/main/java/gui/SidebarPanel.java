@@ -1,4 +1,6 @@
-package main.java;
+package main.java.gui;
+
+import main.java.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +13,10 @@ public class SidebarPanel extends JPanel {
     private final JButton hairColorButton;
     private final JButton noseColorButton;
     private final JButton skirtColorButton;
-    private final ImagePreviewApp app;
+    private final Main app;
 
 
-    public SidebarPanel(ImagePreviewApp app) {
+    public SidebarPanel(Main app) {
         this.app = app;
 
         skinColorButton = createColorButton("Skin", new Color(224, 187, 150));

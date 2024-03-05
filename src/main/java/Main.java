@@ -1,12 +1,17 @@
 package main.java;
 
+import main.java.gui.HeaderPanel;
+import main.java.gui.SidebarPanel;
+import main.java.layers.BlendMode;
+import main.java.layers.Layer;
+import main.java.utils.ColorUtils;
+
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagePreviewApp extends JFrame {
+public class Main extends JFrame {
     private final List<Layer> babyLayers = new ArrayList<>();
     private final List<Layer> toddlerLayers = new ArrayList<>();
     private final List<Layer> childLayers = new ArrayList<>();
@@ -25,7 +30,7 @@ public class ImagePreviewApp extends JFrame {
     private LifePhase currentPhase = LifePhase.CHILD;
 
 
-    public ImagePreviewApp() {
+    public Main() {
         initializeWindow();
         loadLayers();
 
@@ -43,7 +48,7 @@ public class ImagePreviewApp extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(ImagePreviewApp::new);
+        SwingUtilities.invokeLater(Main::new);
     }
 
     private void initializeWindow() {
