@@ -14,12 +14,13 @@ public class ImagePreviewApp extends JFrame {
     private final List<Layer> adultLayers = new ArrayList<>();
     private final List<Layer> elderLayers = new ArrayList<>();
 
-    private  Color skinColor = new Color(224, 187, 150);
-    private  Color eyeColor = new Color(212, 250, 102);
-    private  Color eyeWhiteColor = new Color(253, 218, 218);
+    private  Color skinColor = new Color(238, 219, 194);
+    private  Color eyeColor = new Color(18, 156, 182);
+    private  Color eyeWhiteColor = new Color(252, 252, 252);
     private  Color browColor = new Color(144, 113, 201);
-    private  Color hairColor = new Color(253, 214, 120);
+    private  Color hairColor = new Color(220, 112, 33);
     private  Color noseColor = new Color(182, 141, 123);
+    private  Color skirtColor = new Color(137, 222, 55);
     private final PreviewPanel previewPanel;
     private LifePhase currentPhase = LifePhase.CHILD;
 
@@ -76,6 +77,7 @@ public class ImagePreviewApp extends JFrame {
         childLayers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor,0.2f)));
         childLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.2f)));
         childLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0.2f)));
+        childLayers.add(new Layer("/skirt_child.png").color(ColorUtils.desaturate(skirtColor,0f)));
         childLayers.add(new Layer("/hair_child.png").color(ColorUtils.desaturate(hairColor,0.2f)));
 
         teenLayers.add(new Layer("/skin_color.png").tint(skinColor));
@@ -85,6 +87,7 @@ public class ImagePreviewApp extends JFrame {
         teenLayers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor,0.3f)));
         teenLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.3f)));
         teenLayers.add(new Layer("/brow_default.png").color(ColorUtils.desaturate(browColor,0.3f)));
+        teenLayers.add(new Layer("/skirt_teen.png").color(ColorUtils.desaturate(skirtColor,0f)));
         teenLayers.add(new Layer("/hair_teen.png").color(ColorUtils.desaturate(hairColor,0.3f)));
 
         adultLayers.add(new Layer("/skin_color.png").tint(ColorUtils.desaturate(skinColor,0.4f)));
@@ -94,6 +97,7 @@ public class ImagePreviewApp extends JFrame {
         adultLayers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor,0.5f)));
         adultLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.5f)));
         adultLayers.add(new Layer("/brow_larger.png").color(ColorUtils.desaturate(browColor,0.5f)));
+        adultLayers.add(new Layer("/skirt_adult.png").color(ColorUtils.desaturate(skirtColor,0f)));
         adultLayers.add(new Layer("/hair_adult.png").color(ColorUtils.desaturate(hairColor,0.5f)));
 
         elderLayers.add(new Layer("/skin_color.png").tint(ColorUtils.desaturate(skinColor,0.5f)));
@@ -103,6 +107,7 @@ public class ImagePreviewApp extends JFrame {
         elderLayers.add(new Layer("/eye_color.png").tint(ColorUtils.desaturate(eyeColor,0.7f)));
         elderLayers.add(new Layer("/nose.png").color(ColorUtils.desaturate(noseColor,0.3f)));
         elderLayers.add(new Layer("/brow_larger.png").color(ColorUtils.desaturate(browColor,0.7f)));
+        elderLayers.add(new Layer("/skirt_elder.png").color(ColorUtils.desaturate(skirtColor,0f)));
         elderLayers.add(new Layer("/hair_adult.png").color(ColorUtils.desaturate(hairColor,0.7f)));
     }
 
@@ -118,12 +123,13 @@ public class ImagePreviewApp extends JFrame {
         }
     }
 
-    public void refreshColors(Color skin, Color eye, Color brow, Color hair, Color nose){
+    public void refreshColors(Color skin, Color eye, Color brow, Color hair, Color nose, Color skirtColor){
         skinColor = skin;
         eyeColor = eye;
         browColor = brow;
         hairColor = hair;
         noseColor = nose;
+        this.skirtColor = skirtColor;
         loadLayers();
         onLifePhaseChanged(currentPhase);
     }

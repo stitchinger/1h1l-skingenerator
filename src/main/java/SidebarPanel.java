@@ -10,18 +10,20 @@ public class SidebarPanel extends JPanel {
     private final JButton browColorButton;
     private final JButton hairColorButton;
     private final JButton noseColorButton;
+    private final JButton skirtColorButton;
     private final ImagePreviewApp app;
 
 
     public SidebarPanel(ImagePreviewApp app) {
         this.app = app;
 
-        skinColorButton = createColorButton("Skin Color", new Color(224, 187, 150));
-        eyeColorButton = createColorButton("Eye Color", new Color(212, 250, 102));
-        JButton eyeWhiteColorButton = createColorButton("Eye White Color", new Color(253, 218, 218));
-        browColorButton = createColorButton("Brow Color", new Color(144, 113, 201));
-        hairColorButton = createColorButton("Hair Color", new Color(253, 214, 120));
-        noseColorButton = createColorButton("Nose Color", new Color(182, 141, 123));
+        skinColorButton = createColorButton("Skin", new Color(224, 187, 150));
+        eyeColorButton = createColorButton("Eyes", new Color(212, 250, 102));
+        JButton eyeWhiteColorButton = createColorButton("Eye White", new Color(253, 218, 218));
+        browColorButton = createColorButton("Brows", new Color(144, 113, 201));
+        hairColorButton = createColorButton("Hair", new Color(253, 214, 120));
+        noseColorButton = createColorButton("Nose", new Color(182, 141, 123));
+        skirtColorButton = createColorButton("Skirt", new Color(182, 141, 123));
 
         this.add(skinColorButton);
         this.add(eyeColorButton);
@@ -29,6 +31,7 @@ public class SidebarPanel extends JPanel {
         this.add(browColorButton);
         this.add(hairColorButton);
         this.add(noseColorButton);
+        this.add(skirtColorButton);
     }
 
     private JButton createColorButton(String label, Color defaultColor) {
@@ -49,7 +52,8 @@ public class SidebarPanel extends JPanel {
                         eyeColorButton.getBackground(),
                         browColorButton.getBackground(),
                         hairColorButton.getBackground(),
-                        noseColorButton.getBackground()
+                        noseColorButton.getBackground(),
+                        skirtColorButton.getBackground()
                 );
             }
         });
