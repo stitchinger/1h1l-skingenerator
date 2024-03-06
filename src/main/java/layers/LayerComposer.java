@@ -61,6 +61,11 @@ public class LayerComposer {
         int blendRed = blendColor.getRed();
         int blendGreen = blendColor.getGreen();
         int blendBlue = blendColor.getBlue();
+        int blendAlpha = blendColor.getAlpha();
+
+        if (blendAlpha == 0) {
+            return baseColor;
+        }
 
         // Perform the Multiply blend mode operation
         int redResult = (baseRed * blendRed) / 255;

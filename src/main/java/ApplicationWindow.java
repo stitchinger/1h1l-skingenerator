@@ -6,17 +6,18 @@ import main.java.layers.LayerManagement;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
 public class ApplicationWindow extends JFrame {
     private  PreviewPanel previewPanel;
     private final LayerManagement layerManagement;
     private final ImageExporter imageExporter;
     private LifePhase currentPhase = LifePhase.CHILD;
+    private ColorContainer colorContainer;
 
     public ApplicationWindow() {
-        layerManagement = new LayerManagement();
+        colorContainer = new ColorContainer();
+        layerManagement = new LayerManagement(colorContainer);
         imageExporter = new ImageExporter(layerManagement);
 
         initializeWindow();
@@ -35,7 +36,7 @@ public class ApplicationWindow extends JFrame {
         previewPanel = new PreviewPanel(layerManagement.getLayersForLifePhase(LifePhase.CHILD));
         add(previewPanel);
 
-        SidebarPanel sidebarPanel = new SidebarPanel(this, layerManagement, previewPanel); // Adjust as needed to integrate with LayerManagement
+        SidebarPanel sidebarPanel = new SidebarPanel(this, layerManagement, previewPanel, colorContainer); // Adjust as needed to integrate with LayerManagement
         sidebarPanel.setPreferredSize(new Dimension(150, getHeight()));
         add(sidebarPanel, BorderLayout.WEST);
 

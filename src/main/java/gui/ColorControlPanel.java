@@ -1,6 +1,7 @@
 package main.java.gui;
 
 import main.java.ApplicationWindow;
+import main.java.ColorContainer;
 import main.java.LifePhase;
 import main.java.PreviewPanel;
 import main.java.layers.LayerManagement;
@@ -20,21 +21,23 @@ public class ColorControlPanel extends JPanel {
     private final ApplicationWindow app;
     private final LayerManagement layerManagement;
     private final PreviewPanel previewPanel;
+    private ColorContainer colorContainer;
 
 
-    public ColorControlPanel(ApplicationWindow app, LayerManagement layerManagement, PreviewPanel previewPanel) {
+    public ColorControlPanel(ApplicationWindow app, LayerManagement layerManagement, PreviewPanel previewPanel, ColorContainer colorContainer) {
         this.layerManagement = layerManagement;
         this.previewPanel = previewPanel;
+        this.colorContainer = colorContainer;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.app = app;
 
-        skinColorButton = createColorButton("Skin", new Color(224, 187, 150));
-        eyeColorButton = createColorButton("Eyes", new Color(103, 162, 197));
-        eyeWhiteColorButton = createColorButton("Eye White", new Color(255, 255, 255));
-        browColorButton = createColorButton("Brows", new Color(50, 72, 100));
-        hairColorButton = createColorButton("Hair", new Color(206, 108, 238));
-        noseColorButton = createColorButton("Nose", new Color(182, 141, 123));
-        skirtColorButton = createColorButton("Skirt", new Color(174, 211, 108));
+        skinColorButton = createColorButton("Skin", colorContainer.skinColor);
+        eyeColorButton = createColorButton("Eyes", colorContainer.eyeColor);
+        eyeWhiteColorButton = createColorButton("Eye White", colorContainer.eyeWhiteColor);
+        browColorButton = createColorButton("Brows", colorContainer.browColor);
+        hairColorButton = createColorButton("Hair", colorContainer.hairColor);
+        noseColorButton = createColorButton("Nose", colorContainer.noseColor);
+        skirtColorButton = createColorButton("Skirt", colorContainer.skirtColor);
 
         this.add(skinColorButton);
         this.add(eyeColorButton);
@@ -58,15 +61,15 @@ public class ColorControlPanel extends JPanel {
                 button.setOpaque(true);
                 button.setBackground(newColor);
 
-                layerManagement.updateColorsInLayers(
-                        skinColorButton.getBackground(),
-                        eyeColorButton.getBackground(),
-                        eyeWhiteColorButton.getBackground(),
-                        browColorButton.getBackground(),
-                        hairColorButton.getBackground(),
-                        noseColorButton.getBackground(),
-                        skirtColorButton.getBackground()
-                );
+                colorContainer.skinColor = skinColorButton.getBackground();
+                colorContainer.eyeColor = eyeColorButton.getBackground();
+                colorContainer.eyeWhiteColor = eyeWhiteColorButton.getBackground();
+                colorContainer.browColor = browColorButton.getBackground();
+                colorContainer.hairColor = hairColorButton.getBackground();
+                colorContainer.noseColor = noseColorButton.getBackground();
+                colorContainer.skirtColor = skirtColorButton.getBackground();
+                layerManagement.loadAllLayers();
+
                 previewPanel.setDrawLayers(layerManagement.getLayersForLifePhase(app.getCurrentPhase()));
             }
         });
