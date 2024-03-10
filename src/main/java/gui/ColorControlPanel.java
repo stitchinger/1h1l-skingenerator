@@ -2,7 +2,6 @@ package main.java.gui;
 
 import main.java.ApplicationWindow;
 import main.java.ColorContainer;
-import main.java.LifePhase;
 import main.java.PreviewPanel;
 import main.java.layers.LayerManagement;
 
@@ -17,7 +16,8 @@ public class ColorControlPanel extends JPanel {
     private final JButton browColorButton;
     private final JButton hairColorButton;
     private final JButton noseColorButton;
-    private final JButton skirtColorButton;
+    private final JButton skirtYoungColorButton;
+    private final JButton skirtOldColorButton;
     private final ApplicationWindow app;
     private final LayerManagement layerManagement;
     private final PreviewPanel previewPanel;
@@ -37,7 +37,8 @@ public class ColorControlPanel extends JPanel {
         browColorButton = createColorButton("Brows", colorContainer.browColor);
         hairColorButton = createColorButton("Hair", colorContainer.hairColor);
         noseColorButton = createColorButton("Nose", colorContainer.noseColor);
-        skirtColorButton = createColorButton("Skirt", colorContainer.skirtColor);
+        skirtYoungColorButton = createColorButton("Skirt", colorContainer.skirtYoungColor);
+        skirtOldColorButton = createColorButton("Skirt", colorContainer.skirtOldColor);
 
         this.add(skinColorButton);
         this.add(eyeColorButton);
@@ -45,7 +46,8 @@ public class ColorControlPanel extends JPanel {
         this.add(browColorButton);
         this.add(hairColorButton);
         this.add(noseColorButton);
-        this.add(skirtColorButton);
+        this.add(skirtYoungColorButton);
+        this.add(skirtOldColorButton);
     }
 
     private JButton createColorButton(String label, Color defaultColor) {
@@ -67,7 +69,8 @@ public class ColorControlPanel extends JPanel {
                 colorContainer.browColor = browColorButton.getBackground();
                 colorContainer.hairColor = hairColorButton.getBackground();
                 colorContainer.noseColor = noseColorButton.getBackground();
-                colorContainer.skirtColor = skirtColorButton.getBackground();
+                colorContainer.skirtYoungColor = skirtYoungColorButton.getBackground();
+                colorContainer.skirtOldColor = skirtOldColorButton.getBackground();
                 layerManagement.loadAllLayers();
 
                 previewPanel.setDrawLayers(layerManagement.getLayersForLifePhase(app.getCurrentPhase()));
