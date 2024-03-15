@@ -63,9 +63,16 @@ public class LayerManagement {
         layers.add(new Layer("/wristbands.png")
                 .color(ColorUtils.interpolateColor(start, end, 0.1f)));
         layers.add(new Layer("/hair_child.png").color(ColorUtils.desaturate(colorContainer.hairColor, 0.2f)));
-        layers.add(new Layer("/hairflower.png"));
+
+        layers.add(new Layer("/hairflower_inner.png").color(colorContainer.flowerInnerColor));
+        layers.add(new Layer("/hairflower_leaves.png").color(colorContainer.flowerColor));
+        layers.add(new Layer("/hairflower_green.png").color(colorContainer.plantGreenColor));
+
         layers.add(new Layer("/necklace.png"));
-        layers.add(new Layer("/hairbands.png"));
+        layers.add(new Layer("/necklace_flowers_inner.png").color(colorContainer.flowerInnerColor));
+        layers.add(new Layer("/necklace_flowers_leaves.png").color(colorContainer.flowerColor));
+
+        layers.add(new Layer("/hairbands.png").color(colorContainer.plantGreenColor));
         layersByPhase.put(LifePhase.CHILD, layers);
 
         layers = new ArrayList<>();

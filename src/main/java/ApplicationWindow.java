@@ -13,7 +13,7 @@ public class ApplicationWindow extends JFrame {
     private final LayerManagement layerManagement;
     private final ImageExporter imageExporter;
     private LifePhase currentPhase = LifePhase.CHILD;
-    private ColorContainer colorContainer;
+    private final ColorContainer colorContainer;
 
     public ApplicationWindow() {
         colorContainer = new ColorContainer();
@@ -25,7 +25,7 @@ public class ApplicationWindow extends JFrame {
     }
 
     private void initializeWindow() {
-        setTitle("Image Preview App");
+        setTitle("1H1L Skin Generator");
         setSize(800, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

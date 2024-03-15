@@ -10,14 +10,15 @@ import java.awt.*;
 
 public class ColorControlPanel extends JPanel {
 
-    private final JButton skinColorButton;
-    private final JButton eyeWhiteColorButton;
+    private final JButton skinColorButton, flowerColorButton, flowerInnerColorButton, eyeWhiteColorButton;
     private final JButton eyeColorButton;
     private final JButton browColorButton;
     private final JButton hairColorButton;
     private final JButton noseColorButton;
     private final JButton skirtYoungColorButton;
     private final JButton skirtOldColorButton;
+    private final JButton plantGreenButton;
+
     private final ApplicationWindow app;
     private final LayerManagement layerManagement;
     private final PreviewPanel previewPanel;
@@ -39,6 +40,9 @@ public class ColorControlPanel extends JPanel {
         noseColorButton = createColorButton("Nose", colorContainer.noseColor);
         skirtYoungColorButton = createColorButton("Skirt", colorContainer.skirtYoungColor);
         skirtOldColorButton = createColorButton("Skirt", colorContainer.skirtOldColor);
+        plantGreenButton = createColorButton("Plant Green", colorContainer.plantGreenColor);
+        flowerColorButton = createColorButton("Flowers", colorContainer.flowerColor);
+        flowerInnerColorButton = createColorButton("FlowerInners", colorContainer.flowerInnerColor);
 
         this.add(skinColorButton);
         this.add(eyeColorButton);
@@ -48,6 +52,9 @@ public class ColorControlPanel extends JPanel {
         this.add(noseColorButton);
         this.add(skirtYoungColorButton);
         this.add(skirtOldColorButton);
+        this.add(plantGreenButton);
+        this.add(flowerColorButton);
+        this.add(flowerInnerColorButton);
     }
 
     private JButton createColorButton(String label, Color defaultColor) {
@@ -71,6 +78,9 @@ public class ColorControlPanel extends JPanel {
                 colorContainer.noseColor = noseColorButton.getBackground();
                 colorContainer.skirtYoungColor = skirtYoungColorButton.getBackground();
                 colorContainer.skirtOldColor = skirtOldColorButton.getBackground();
+                colorContainer.plantGreenColor = plantGreenButton.getBackground();
+                colorContainer.flowerColor = flowerColorButton.getBackground();
+                colorContainer.flowerInnerColor = flowerInnerColorButton.getBackground();
                 layerManagement.loadAllLayers();
 
                 previewPanel.setDrawLayers(layerManagement.getLayersForLifePhase(app.getCurrentPhase()));

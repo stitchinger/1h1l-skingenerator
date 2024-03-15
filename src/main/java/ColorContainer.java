@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class ColorContainer {
 
-    public Color skinColor, eyeColor, browColor, hairColor, noseColor, skirtYoungColor, skirtOldColor,  eyeWhiteColor, underwearColor;
+    public Color skinColor, eyeColor, browColor, hairColor, noseColor, skirtYoungColor, skirtOldColor,  eyeWhiteColor, underwearColor, plantGreenColor, flowerColor, flowerInnerColor;
 
     public ColorContainer(){
         initializeColors();
@@ -20,5 +20,8 @@ public class ColorContainer {
         skirtYoungColor = new Color(148, 204, 103);
         skirtOldColor = new Color(175, 162, 88);
         underwearColor = new Color(220, 209, 199);
+        plantGreenColor = new Color(150, 237, 113);
+        flowerColor = new Color(237, 76, 63);
+        flowerInnerColor = new Color(250, 227, 110);
     }
 }
