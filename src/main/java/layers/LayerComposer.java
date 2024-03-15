@@ -34,7 +34,7 @@ public class LayerComposer {
                         blendedColor = blendSoftLight(color1, color2);
                         break;
                     case MULTIPLY:
-                        blendedColor = multiplyBlendWithOpacity(color1, color2, layer2.getOpacity());
+                        blendedColor = blendMultiply(color1, color2, layer2.getOpacity());
                         break;
                     default:
                         blendedColor = blendNormal(color1, color2);
@@ -47,7 +47,24 @@ public class LayerComposer {
         return new Layer(combinedImage); // Set blend mode of combined layer to NORMAL or as needed
     }
 
-    public static Color multiplyBlendWithOpacity(Color baseColor, Color blendColor, float opacity) {
+    private static Color blendNormal(Color baseColor, Color blendColor) {
+        float alpha1 = baseColor.getAlpha() / 255.0f;
+        float alpha2 = blendColor.getAlpha() / 255.0f;
+        float combinedAlpha = alpha1 + alpha2 * (1 - alpha1);
+
+        if (combinedAlpha == 0) {
+            // Avoid division by zero; if alpha is zero, color is irrelevant but should be fully transparent
+            return new Color(0, 0, 0, 0);
+        }
+
+        int red = (int) (((blendColor.getRed() * alpha2) + (baseColor.getRed() * alpha1 * (1 - alpha2))) / combinedAlpha);
+        int green = (int) (((blendColor.getGreen() * alpha2) + (baseColor.getGreen() * alpha1 * (1 - alpha2))) / combinedAlpha);
+        int blue = (int) (((blendColor.getBlue() * alpha2) + (baseColor.getBlue() * alpha1 * (1 - alpha2))) / combinedAlpha);
+
+        return new Color(clamp(red), clamp(green), clamp(blue), (int) (combinedAlpha * 255));
+    }
+
+    public static Color blendMultiply(Color baseColor, Color blendColor, float opacity) {
         if (opacity < 0.0f || opacity > 1.0f) {
             throw new IllegalArgumentException("Opacity must be between 0.0 and 1.0");
         }
@@ -113,10 +130,6 @@ public class LayerComposer {
         );
     }
 
-    private static double clamp(double value) {
-        return Math.max(0.0, Math.min(1.0, value));
-    }
-
     private static double softLightComponent(double base, double blend) {
         if (blend < 0.5) {
             return 2 * base * blend + base * base * (1 - 2 * blend);
@@ -125,23 +138,9 @@ public class LayerComposer {
         }
     }
 
-    private static Color blendNormal(Color baseColor, Color blendColor) {
-        float alpha1 = baseColor.getAlpha() / 255.0f;
-        float alpha2 = blendColor.getAlpha() / 255.0f;
-        float combinedAlpha = alpha1 + alpha2 * (1 - alpha1);
-
-        if (combinedAlpha == 0) {
-            // Avoid division by zero; if alpha is zero, color is irrelevant but should be fully transparent
-            return new Color(0, 0, 0, 0);
-        }
-
-        int red = (int) (((blendColor.getRed() * alpha2) + (baseColor.getRed() * alpha1 * (1 - alpha2))) / combinedAlpha);
-        int green = (int) (((blendColor.getGreen() * alpha2) + (baseColor.getGreen() * alpha1 * (1 - alpha2))) / combinedAlpha);
-        int blue = (int) (((blendColor.getBlue() * alpha2) + (baseColor.getBlue() * alpha1 * (1 - alpha2))) / combinedAlpha);
-
-        return new Color(clamp(red), clamp(green), clamp(blue), (int) (combinedAlpha * 255));
+    private static double clamp(double value) {
+        return Math.max(0.0, Math.min(1.0, value));
     }
-
 
     private static int clamp(int value) {
         return Math.max(0, Math.min(255, value));

@@ -2,7 +2,6 @@ package main.java.gui;
 
 import main.java.ApplicationWindow;
 import main.java.ColorContainer;
-import main.java.PreviewPanel;
 import main.java.layers.LayerManagement;
 
 import javax.swing.*;

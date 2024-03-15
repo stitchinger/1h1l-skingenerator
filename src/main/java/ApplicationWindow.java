@@ -1,7 +1,9 @@
 package main.java;
 
 import main.java.gui.HeaderPanel;
+import main.java.gui.PreviewPanel;
 import main.java.gui.SidebarPanel;
+import main.java.images.ImageExporter;
 import main.java.layers.LayerManagement;
 
 import javax.swing.JFrame;
@@ -11,7 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ApplicationWindow extends JFrame {
-    private  PreviewPanel previewPanel;
+    private PreviewPanel previewPanel;
     private final LayerManagement layerManagement;
     private final ImageExporter imageExporter;
     private LifePhase currentPhase = LifePhase.CHILD;
@@ -28,7 +30,7 @@ public class ApplicationWindow extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("Window is closing, performing clean up tasks...");
+                System.out.println("Window is closing, saving colors.");
                 colorContainer.saveColors();
                 System.exit(0);
             }
@@ -43,22 +45,19 @@ public class ApplicationWindow extends JFrame {
     }
 
     private void setupUI() {
-        // Assume PreviewPanel is adjusted to work with LayerManagement for dynamic updates
         previewPanel = new PreviewPanel(layerManagement.getLayersForLifePhase(LifePhase.CHILD));
         add(previewPanel);
 
-        SidebarPanel sidebarPanel = new SidebarPanel(this, layerManagement, previewPanel, colorContainer); // Adjust as needed to integrate with LayerManagement
+        SidebarPanel sidebarPanel = new SidebarPanel(this, layerManagement, previewPanel, colorContainer);
         sidebarPanel.setPreferredSize(new Dimension(150, getHeight()));
         add(sidebarPanel, BorderLayout.WEST);
 
-        HeaderPanel headerPanel = new HeaderPanel(this); // Adjust as needed
+        HeaderPanel headerPanel = new HeaderPanel(this);
         add(headerPanel, BorderLayout.NORTH);
-
 
         setVisible(true);
     }
 
-    // Method to handle life phase changes, e.g., from UI interactions
     public void onLifePhaseChanged(LifePhase lifePhase) {
         currentPhase = lifePhase;
         previewPanel.setDrawLayers(layerManagement.getLayersForLifePhase(currentPhase));
@@ -68,7 +67,6 @@ public class ApplicationWindow extends JFrame {
         return currentPhase;
     }
 
-    // Method to trigger exporting of images
     public void exportSkins() {
         imageExporter.exportAllPhases();
     }

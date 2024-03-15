@@ -1,8 +1,9 @@
-package main.java;
+package main.java.images;
 
+import main.java.LifePhase;
 import main.java.layers.LayerComposer;
 import main.java.layers.LayerManagement;
-import main.java.utils.ImageUtils;
+import main.java.images.ImageUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
