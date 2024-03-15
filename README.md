@@ -19,7 +19,7 @@ java -jar 1h1l-Skingenerator.jar
 
 
 ### Interface Screenshot
-![1h1l-Skingenerator Interface](/path/to/[screenshot.jpg])
+![1h1l-Skingenerator Interface](https://raw.githubusercontent.com/stitchinger/1h1l-skingenerator/main/src/main/assets/app-sceenshot.png)
 
 ## Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
