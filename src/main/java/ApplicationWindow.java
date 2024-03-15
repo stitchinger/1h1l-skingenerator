@@ -7,6 +7,8 @@ import main.java.layers.LayerManagement;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ApplicationWindow extends JFrame {
     private  PreviewPanel previewPanel;
@@ -22,6 +24,15 @@ public class ApplicationWindow extends JFrame {
 
         initializeWindow();
         setupUI();
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Window is closing, performing clean up tasks...");
+                colorContainer.saveColors();
+                System.exit(0);
+            }
+        });
     }
 
     private void initializeWindow() {

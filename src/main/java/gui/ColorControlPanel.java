@@ -18,11 +18,13 @@ public class ColorControlPanel extends JPanel {
     private final JButton skirtYoungColorButton;
     private final JButton skirtOldColorButton;
     private final JButton plantGreenButton;
+    private final JButton wristBandsStartButton;
+    private final JButton wristBandsEndButton;
 
     private final ApplicationWindow app;
     private final LayerManagement layerManagement;
     private final PreviewPanel previewPanel;
-    private ColorContainer colorContainer;
+    private final ColorContainer colorContainer;
 
 
     public ColorControlPanel(ApplicationWindow app, LayerManagement layerManagement, PreviewPanel previewPanel, ColorContainer colorContainer) {
@@ -43,6 +45,8 @@ public class ColorControlPanel extends JPanel {
         plantGreenButton = createColorButton("Plant Green", colorContainer.plantGreenColor);
         flowerColorButton = createColorButton("Flowers", colorContainer.flowerColor);
         flowerInnerColorButton = createColorButton("FlowerInners", colorContainer.flowerInnerColor);
+        wristBandsStartButton = createColorButton("WristBandsStart", colorContainer.wristBandsStart);
+        wristBandsEndButton = createColorButton("WristBandsEnd", colorContainer.wristBandsEnd);
 
         this.add(skinColorButton);
         this.add(eyeColorButton);
@@ -55,6 +59,8 @@ public class ColorControlPanel extends JPanel {
         this.add(plantGreenButton);
         this.add(flowerColorButton);
         this.add(flowerInnerColorButton);
+        this.add(wristBandsStartButton);
+        this.add(wristBandsEndButton);
     }
 
     private JButton createColorButton(String label, Color defaultColor) {
@@ -81,6 +87,8 @@ public class ColorControlPanel extends JPanel {
                 colorContainer.plantGreenColor = plantGreenButton.getBackground();
                 colorContainer.flowerColor = flowerColorButton.getBackground();
                 colorContainer.flowerInnerColor = flowerInnerColorButton.getBackground();
+                colorContainer.wristBandsStart = wristBandsStartButton.getBackground();
+                colorContainer.wristBandsEnd = wristBandsEndButton.getBackground();
                 layerManagement.loadAllLayers();
 
                 previewPanel.setDrawLayers(layerManagement.getLayersForLifePhase(app.getCurrentPhase()));

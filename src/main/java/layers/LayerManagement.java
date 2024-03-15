@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class LayerManagement {
     private final Map<LifePhase, List<Layer>> layersByPhase;
-    private ColorContainer colorContainer;
+    private final ColorContainer colorContainer;
 
 
     public LayerManagement(ColorContainer colorContainer) {
@@ -23,8 +23,8 @@ public class LayerManagement {
 
 
     public void loadAllLayers() {
-        Color start = new Color(250, 163, 71);
-        Color end = new Color(91, 128, 106);
+        Color start = colorContainer.wristBandsStart;
+        Color end = colorContainer.wristBandsEnd;
 
         List<Layer> layers = new ArrayList<>();
         layers.add(new Layer("/skin_color.png").tint(colorContainer.skinColor));
